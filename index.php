@@ -7,13 +7,6 @@ include 'main_page.php';
 
 ?>
 
-<!-- <form action="controller.php" method="post">
-    Nhập ngày muốn tra cứu: <input type="text" name="date_search" value="" placeholder="vd: 30/04/2023">
-    <button type="submit" name="seach_btn">
-        Tìm kiếm
-    </button>
-</form> -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,15 +31,6 @@ include 'main_page.php';
         <div class="tab_item">
             <div class="list_product">
                 <?php $count3 = 0;
-                // $date0 = "";
-                // $date1 = "";
-                // $date2 = "";
-                // $date3 = "";
-                // $date4 = "";
-                // $date5 = "";
-                // $date6 = "";
-                // $link_url = "";
-                //foreach ($html->find('a[href^=ngay-]') as $link) {
                 foreach ($array_date as $value => $date) { ?>
                     <div class="item">
                         <div href="#" class="main_contain">
@@ -56,66 +40,23 @@ include 'main_page.php';
                             <strong class="price">
                                 <?= $array_company[$value] . "   công ty" ?>
                             </strong><br><br>
-                            <!-- <div class="btn_detail">
-                                <div href="index.php?page_layout=list">
-                                    <?php
-                                    //index.php?page_layout=list
-                                    //echo $array_link[$value];
-                                    echo "Xem chi tiết";
-                                    //$link_url = $array_link[$value];
-                                    //$_SESSION['link_url']= $link_url;
-                                    //echo $link_url; 
-                                    ?>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
-                    <?php
-
-                    // if ($count3 == 0) {
-                    //     $date0 = $link_url;
-                    //     $_SESSION['link_url0'] = $date0;
-                    // } else if ($count3 == 1) {
-                    //     $date1 = $link_url;
-                    //     $_SESSION['link_url1'] = $date1;
-                    // } else if ($count3 == 2) {
-                    //     $date2 = $link_url;
-                    //     $_SESSION['link_url2'] = $date2;
-                    // } else if ($count3 == 3) {
-                    //     $date3 = $link_url;
-                    //     $_SESSION['link_url3'] = $date3;
-                    // } else if ($count3 == 4) {
-                    //     $date4 = $link_url;
-                    //     $_SESSION['link_url4'] = $date4;
-                    // } else if ($count3 == 5) {
-                    //     $date5 = $link_url;
-                    //     $_SESSION['link_url5'] = $date5;
-                    // } else {
-                    //     $date6 = $link_url;
-                    //     $_SESSION['link_url6'] = $date6;
-                    // }
-                
+                <?php
                     $count3++;
                     if ($count3 == 7) {
                         break;
                     }
                 }
-
-                //} 
                 ?>
             </div>
         </div>
     </div><br>
     <div class="combo_btn">
         <a href="controller.php" target="_blank" class="btn btn-primary" value="">CẬP NHẬT DATABASE</a>
+        <a href="list.php" target="_blank" class="btn btn-primary" value="">XEM DANH SÁCH ĐÃ ĐƯỢC CẬP NHẬT</a>
     </div>
-    
 
-    <!-- <script>
-        function alertFunction() {
-            alert("Cập nhật database thành công!");
-        }
-    </script> -->
 </body>
 
 </html>

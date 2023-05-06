@@ -1,100 +1,90 @@
 <?php
-//ob_start();
 include 'index.php';
 echo "<br>";
-//var_dump($array_link_href); exit();
+
+// danh sách chứa thông tin toàn bộ tên các công ty trong tuần
+$list_congty = array();
+// danh sách chứa thông tin toàn bộ địa chỉ các công ty trong tuần
+$list_diachi = array();
+// danh sách chứa thông tin toàn bộ mã số thuế các công ty trong tuần
+$list_mst = array();
+// danh sách chứa thông tin toàn bộ ngày thành lập các công ty trong tuần
+$list_ngaythanhlap = array();
 
 // duyệt từng trang con
-for ($i = 0; $i <= count($array_link_href); $i++) {
+//count($array_link_href)
+// CẢNH BÁO SUBMIT RẤT LÂU NẾU CÓ QUÁ NHIỀU CÔNG TY!!!
+// CÓ THỂ THAY ĐỔI count($array_link_href) THÀNH 1 HOẶC 2 ĐỂ TEST 2 HOẶC 3 NGÀY GẦN NHẤT
+for ($i = 0; $i < count($array_link_href); $i++) {
+  // nếu ngày đó không có công ty nào thì skip
   if (@$array_company[$i] == 0) {
     continue;
   }
   // get phân trang và thông tin trang đầu
   include 'first_page.php';
-  // echo $phan_trang;
-  // exit();
+
+  // duyệt từng trang
   for ($q = 1; $q <= $phan_trang; $q++) {
     // duyệt từ trang 2 trở đi
     if ($q > 1) {
-      //echo $q . "<br>";
-      include 'other_page.php';
-    ?>
-    <?php } else {
-      include 'first_page_controller.php';
+      include 'other_page.php'; // xử lý các trang phân trang
+    } else {
+      include 'first_page_controller.php'; // xử lý trang đầu tiên
       //exit("test");
-    ?>
-    <?php }
+?>
+<?php }
   }
 }
 
+// xử lý thêm vào database
 ?>
+<form action="" method="post" id="submit_form2" name="submit_form2" enctype="multipart/form-data">
+  <?php
+  // duyệt thông tin của tất cả công ty trong tuần
+  $n = count($list_congty);
+  for ($k = 0; $k < $n; $k++) {
+  ?>
+    <div style="display: inline-block; margin: 10px">
+      <input type="text" name="<?= $k . 'nm'; ?>" value="<?= @array_values($list_congty)[$k] ?>"><br>
+      <input type="text" name="<?= $k . 'dc'; ?>" value="<?= @array_values($list_diachi)[$k] ?>"><br>
+      <input type="text" name="<?= $k . 'mst'; ?>" value="<?= @array_values($list_mst)[$k] ?>"><br>
+      <input type="text" name="<?= $k . 'ngay'; ?>" value="<?= @array_values($list_ngaythanhlap)[$k] ?>"><br>
+      <input type="hidden" name="n" value="<?= $n; ?>">
+    </div>
+
+
+  <?php } ?>
+  <script type='text/javascript'>
+    document.getElementById('submit_form2').submit();
+  </script>
+</form>
 
 <?php
-//$str_date = "ngay-";
-//@$url = $_POST['date_search'];
-//echo $url . "<br>";
-//$path = "https://hosocongty.vn";
-//$full_path = $path . "/" . $str_date . $url;
-//echo $full_path . "<br>";
+$sql_company_info = "SELECT * FROM company_info";
+$query_company_info = mysqli_query($connect, $sql_company_info);
 
-//exit();
-// curl_setopt($ch2, CURLOPT_URL, $full_path);
-// curl_setopt($ch2, CURLOPT_FOLLOWLOCATION, 1); // check theo domain khu vực
-// curl_setopt($ch2, CURLOPT_RETURNTRANSFER, 1); // trả về kết quả
-// $response2 = curl_exec($ch2);
-// curl_close($ch2);
-//}
-//exit();
+@$n = $_POST['n'];
+for ($k = 0; $k < $n; $k++) {
+  $nm = $_POST[$k . "nm"];
+  $dc = $_POST[$k . "dc"];
+  $mst = $_POST[$k . "mst"];
+  $ngay = $_POST[$k . "ngay"];
+  $created_at = date('d-m-y h:i:s');
 
-// in kết quả ra màn hình
-// echo $response2;
-// exit();
-
-// // lấy thông tin theo ngày
-// $html2 = new simple_html2_dom();
-// $html2->load($response2);
-
-// // lấy ngày theo trang
-// $get_ngay = "";
-// foreach ($html2->find('div a[href^=https://hosocongty.vn/ngay-]') as $ngay) {
-//   $get_ngay = substr($ngay->href, -10);
-//   //echo $get_ngay . "<br>";
-//   break;
-// }
-// //$str_get_ngay = "list.php?date=" . $get_ngay;
-// // var_dump($str_get_ngay);
-// // exit();
-
-// // get tên của từng công ty trong ngày
-// $array_ten = array();
-// foreach ($html2->find('ul li h3 a') as $ten) {
-//   $array_ten[] = $ten->plaintext;
-// }
-// //var_dump($array_ten);
-
-// // get địa chỉ của từng công ty trong ngày
-// $array_diachi = array();
-// foreach ($html2->find('ul li div') as $diachi) {
-//   if (strlen($diachi->plaintext) > 1) {
-//     $array_diachi[] = substr($diachi->plaintext, 0, -28);
-//   }
-// }
-// // var_dump($array_diachi);
-// // exit();
-
-// // get mã số thuế của từng công ty trong ngày
-// $array_mst = array();
-// foreach ($html2->find('ul li div a') as $mst) {
-//   $array_mst[] = $mst->plaintext;
-// }
-// //var_dump($array_mst);
-
-// // get số lượng phân trang
-// $phan_trang = "";
-// foreach ($html2->find('.next-page a') as $page) {
-//   $phan_trang = $page->plaintext;
-//   echo $phan_trang . "<br>";
-// }
-// //exit();
-
+  // check trùng tên, nếu tên đã có trên database thì skip và thêm tiếp
+  $sql_name_company = "SELECT * FROM company_info WHERE company_name = '$nm'";
+  $query_name_company = mysqli_query($connect, $sql_name_company);
+  $checkName = mysqli_num_rows($query_name_company);
+  if ($checkName == 1) {
+    continue;
+  } else {
+    if ($nm !== '' & $dc !== '' & $mst !== '' & $ngay !== '' & $created_at !== '') {
+      $sql = "INSERT INTO company_info (company_name, address, tax_code, founding_date, created_at) VALUES ('$nm','$dc','$mst','$ngay','$created_at')";
+      $query = mysqli_query($connect, $sql);
+    }
+  }
+}
+echo "<script type='text/javascript'>alert('Submit thành công');
+window.location.href='list.php';
+</script>";
 ?>

@@ -1,12 +1,7 @@
 <?php
 include 'db.php';
-$date = $_GET['date'];
-// echo $date;
-// exit();
-$sql = "SELECT * FROM company_info WHERE founding_date = '$date'";
+$sql = "SELECT * FROM company_info ORDER BY id";
 $query = mysqli_query($connect, $sql);
-// var_dump($query);
-// exit();
 
 ?>
 
